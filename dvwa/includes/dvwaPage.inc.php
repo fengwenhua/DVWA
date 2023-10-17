@@ -24,7 +24,7 @@ if( !isset( $_COOKIE[ 'security' ] ) || !in_array( $_COOKIE[ 'security' ], $secu
 	if( in_array( $_DVWA[ 'default_security_level' ], $security_levels) ) {
 		dvwaSecurityLevelSet( $_DVWA[ 'default_security_level' ] );
 	} else {
-		dvwaSecurityLevelSet( 'impossible' );
+		dvwaSecurityLevelSet( 'low' );
 	}
 }
 
@@ -76,6 +76,7 @@ function dvwaReleaseDateGet() {
 function &dvwaSessionGrab() {
 	if( !isset( $_SESSION[ 'dvwa' ] ) ) {
 		$_SESSION[ 'dvwa' ] = array();
+		$_SESSION[ 'dvwa' ][ 'username'] = 'admin';
 	}
 	return $_SESSION[ 'dvwa' ];
 }
@@ -108,7 +109,7 @@ function dvwaIsLoggedIn() {
 
 function dvwaLogout() {
 	$dvwaSession =& dvwaSessionGrab();
-	unset( $dvwaSession[ 'username' ] );
+	//unset( $dvwaSession[ 'username' ] );
 }
 
 
@@ -151,7 +152,7 @@ function dvwaSecurityLevelGet() {
 	}
 
 	// Worse case, set the level to impossible.
-	return 'impossible';
+	return 'low';
 }
 
 
@@ -255,15 +256,15 @@ function dvwaHtmlEcho( $pPage ) {
 
 	$menuBlocks[ 'meta' ] = array();
 	if( dvwaIsLoggedIn() ) {
-		$menuBlocks[ 'meta' ][] = array( 'id' => 'security', 'name' => 'DVWA Security', 'url' => 'security.php' );
+		//$menuBlocks[ 'meta' ][] = array( 'id' => 'security', 'name' => 'DVWA Security', 'url' => 'security.php' );
 		$menuBlocks[ 'meta' ][] = array( 'id' => 'phpinfo', 'name' => 'PHP Info', 'url' => 'phpinfo.php' );
 	}
 	$menuBlocks[ 'meta' ][] = array( 'id' => 'about', 'name' => 'About', 'url' => 'about.php' );
 
-	if( dvwaIsLoggedIn() ) {
-		$menuBlocks[ 'logout' ] = array();
-		$menuBlocks[ 'logout' ][] = array( 'id' => 'logout', 'name' => 'Logout', 'url' => 'logout.php' );
-	}
+	// if( dvwaIsLoggedIn() ) {
+	// 	$menuBlocks[ 'logout' ] = array();
+	// 	$menuBlocks[ 'logout' ][] = array( 'id' => 'logout', 'name' => 'Logout', 'url' => 'logout.php' );
+	// }
 
 	$menuHtml = '';
 
@@ -284,13 +285,13 @@ function dvwaHtmlEcho( $pPage ) {
 			$securityLevelHtml = 'low';
 			break;
 		case 'medium':
-			$securityLevelHtml = 'medium';
+			$securityLevelHtml = 'low';
 			break;
 		case 'high':
-			$securityLevelHtml = 'high';
+			$securityLevelHtml = 'low';
 			break;
 		default:
-			$securityLevelHtml = 'impossible';
+			$securityLevelHtml = 'low';
 			break;
 	}
 	// -- END (security cookie)
