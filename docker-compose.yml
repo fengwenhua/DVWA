@@ -9,7 +9,7 @@ networks:
 services:
   dvwa:
     build: .
-    image: ghcr.io/digininja/dvwa:latest
+    image: fengwenhua/dvwa:v2.3
     # Change `always` to `build` to build from local source
     pull_policy: build
     environment:
@@ -19,6 +19,7 @@ services:
     networks:
       - dvwa
     ports:
+      # 这里修改端口映射
       - 81:80
     restart: unless-stopped
 
